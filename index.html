@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>FCC Prep Trainer</title>
-<link rel="stylesheet" href="./css/style.css?v=20260528-6">
+<link rel="stylesheet" href="./css/style.css?v=20260528-7">
 </head>
 <body>
 
@@ -29,18 +29,30 @@
 <h2 id="qid"></h2>
 <div id="question"></div>
 <div id="options"></div>
+
+<div id="studyTools" style="margin-top:16px;">
+  <button id="markBtn" onclick="toggleMarkedQuestion()">Mark Question</button>
+  <div id="markStatus" style="margin-top:10px;"></div>
+  <label for="questionJump" style="display:block;margin-top:12px;">Jump to Question</label>
+  <select id="questionJump" onchange="jumpToQuestion()"></select>
+  <button id="prevBtn" onclick="previousQuestion()">Previous</button>
+  <button id="nextMarkedBtn" onclick="nextMarkedQuestion()">Next Marked</button>
+</div>
+
 <button id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
 </div>
 
 <div id="results" class="card" style="display:none;"></div>
 
-<script src="./js/questionLoader.js?v=20260528-6"></script>
+<script src="./js/questionLoader.js?v=20260528-7"></script>
 <script>
 let BANK = [];
 let quiz = [];
 let index = 0;
 let correct = 0;
 let requestedCount = 0;
+let markedQuestions = new Set();
+let answeredQuestions = new Set();
 
 function shuffle(arr) {
   return [...arr].sort(() => Math.random() - 0.5);
@@ -108,11 +120,46 @@ function startQuiz() {
 
   index = 0;
   correct = 0;
+  markedQuestions = new Set();
+  answeredQuestions = new Set();
 
   document.getElementById('results').style.display = 'none';
   document.getElementById('quiz').style.display = 'block';
 
+  updateJumpMenu();
   renderQuestion();
+}
+
+function getQuestionKey(q) {
+  return q.id || `${q.element}-${q.question}`;
+}
+
+function updateJumpMenu() {
+  const jump = document.getElementById('questionJump');
+  jump.innerHTML = '';
+
+  quiz.forEach((q, i) => {
+    const option = document.createElement('option');
+    const mark = markedQuestions.has(getQuestionKey(q)) ? '★ ' : '';
+    option.value = i;
+    option.text = `${mark}${i + 1}. ${q.id}`;
+    jump.appendChild(option);
+  });
+}
+
+function updateMarkedUi(q) {
+  const key = getQuestionKey(q);
+  const markedCount = markedQuestions.size;
+  const isMarked = markedQuestions.has(key);
+
+  document.getElementById('markBtn').innerText = isMarked ? 'Unmark Question' : 'Mark Question';
+  document.getElementById('markStatus').innerText = isMarked
+    ? `★ Marked for review (${markedCount} marked)`
+    : `${markedCount} marked for review`;
+
+  document.getElementById('prevBtn').disabled = index === 0;
+  document.getElementById('nextMarkedBtn').disabled = markedCount === 0;
+  document.getElementById('questionJump').value = index;
 }
 
 function renderQuestion() {
@@ -134,6 +181,7 @@ function renderQuestion() {
 
     btn.onclick = () => {
       document.querySelectorAll('.option').forEach(x => x.disabled = true);
+      answeredQuestions.add(index);
 
       if (letter === q.answer) {
         btn.classList.add('correct');
@@ -154,7 +202,52 @@ function renderQuestion() {
     options.appendChild(btn);
   });
 
-  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('nextBtn').disabled = answeredQuestions.has(index) ? false : true;
+  updateMarkedUi(q);
+}
+
+function toggleMarkedQuestion() {
+  const q = quiz[index];
+  const key = getQuestionKey(q);
+
+  if (markedQuestions.has(key)) {
+    markedQuestions.delete(key);
+  } else {
+    markedQuestions.add(key);
+  }
+
+  updateJumpMenu();
+  updateMarkedUi(q);
+}
+
+function jumpToQuestion() {
+  const jump = document.getElementById('questionJump');
+  index = parseInt(jump.value, 10);
+  renderQuestion();
+}
+
+function previousQuestion() {
+  if (index <= 0) {
+    return;
+  }
+
+  index--;
+  renderQuestion();
+}
+
+function nextMarkedQuestion() {
+  if (!markedQuestions.size) {
+    return;
+  }
+
+  for (let offset = 1; offset <= quiz.length; offset++) {
+    const candidate = (index + offset) % quiz.length;
+    if (markedQuestions.has(getQuestionKey(quiz[candidate]))) {
+      index = candidate;
+      renderQuestion();
+      return;
+    }
+  }
 }
 
 function nextQuestion() {
@@ -179,6 +272,7 @@ function finishQuiz() {
     <p><b>Score:</b> ${pct}%</p>
     <p><b>Correct:</b> ${correct} / ${quiz.length}</p>
     <p><b>Requested:</b> ${requestedCount}</p>
+    <p><b>Marked:</b> ${markedQuestions.size}</p>
     <p><b>Status:</b> ${pct >= 74 ? 'PASSING' : 'NOT PASSING'}</p>
   `;
 }
