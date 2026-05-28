@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <title>FCC Prep Trainer</title>
-<link rel="stylesheet" href="./css/style.css?v=20260528-9">
+<link rel="stylesheet" href="./css/style.css?v=20260528-11">
 </head>
 <body>
-
 <h1>FCC Prep Trainer</h1>
 <p id="questionStatus">Loading questions...</p>
+
+<div id="resumeBox" class="card setup-card" style="display:none;"></div>
 
 <div class="card setup-card">
 <label for="element">Element</label>
@@ -59,13 +60,8 @@
 
     <section id="options" class="answers"></section>
 
-    <section class="notes-section">
-      <label for="userNotes">User Notes:</label>
-      <textarea id="userNotes" oninput="saveCurrentNote()"></textarea>
-    </section>
-
     <div class="bottom-toolbar">
-      <button onclick="saveCurrentNote()">Save</button>
+      <button onclick="saveSession(true)">Save Session</button>
       <button id="markBtn" onclick="toggleMarkedQuestion()">Mark</button>
       <button id="prevBtn" onclick="previousQuestion()">Previous</button>
       <button id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
@@ -76,252 +72,7 @@
 
 <div id="results" class="card" style="display:none;"></div>
 
-<script src="./js/questionLoader.js?v=20260528-9"></script>
-<script>
-let BANK = [];
-let quiz = [];
-let index = 0;
-let correct = 0;
-let requestedCount = 0;
-let currentMode = 'study';
-let markedQuestions = new Set();
-let answeredQuestions = new Set();
-let userAnswers = new Map();
-let questionNotes = new Map();
-
-function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
-
-function getSelectedPool() {
-  const element = document.getElementById('element').value;
-  return BANK.filter(q => element === 'all' || q.element === element);
-}
-
-function getSelectedElementLabel() {
-  const select = document.getElementById('element');
-  return select.options[select.selectedIndex].text;
-}
-
-function updateQuestionStatus() {
-  const status = document.getElementById('questionStatus');
-  if (!BANK.length) {
-    status.innerText = 'Loading questions...';
-    return;
-  }
-  const selectedPool = getSelectedPool();
-  status.innerText = `${getSelectedElementLabel()}: ${selectedPool.length} questions available (${BANK.length} total loaded)`;
-}
-
-async function initApp() {
-  const status = document.getElementById('questionStatus');
-  try {
-    BANK = await loadQuestionPool();
-    updateQuestionStatus();
-    document.getElementById('startBtn').disabled = false;
-  } catch (error) {
-    console.error(error);
-    status.innerText = 'Question data failed to load.';
-  }
-}
-
-function buildQuizPool(pool, count) {
-  if (!pool.length) return [];
-  let output = [];
-  while (output.length < count) output = output.concat(shuffle(pool));
-  return output.slice(0, count);
-}
-
-function startQuiz() {
-  if (!BANK.length) {
-    alert('Question data is still loading. Please try again.');
-    return;
-  }
-
-  requestedCount = parseInt(document.getElementById('count').value, 10) || 35;
-  currentMode = document.getElementById('mode').value;
-  quiz = buildQuizPool(getSelectedPool(), requestedCount);
-
-  index = 0;
-  correct = 0;
-  markedQuestions = new Set();
-  answeredQuestions = new Set();
-  userAnswers = new Map();
-  questionNotes = new Map();
-
-  document.getElementById('results').style.display = 'none';
-  document.getElementById('quiz').style.display = 'grid';
-  document.getElementById('sidebarTitle').innerText = `${quiz.length} questions`;
-  document.getElementById('scoreLine').style.display = currentMode === 'study' ? 'flex' : 'none';
-
-  renderQuestion();
-}
-
-function getQuestionKey(q) {
-  return q.id || `${q.element}-${q.question}`;
-}
-
-function updateSidebar() {
-  const nav = document.getElementById('questionNav');
-  nav.innerHTML = '';
-
-  quiz.forEach((q, i) => {
-    const key = getQuestionKey(q);
-    const btn = document.createElement('button');
-    btn.className = 'nav-question';
-    btn.innerText = `Question ${i + 1}`;
-
-    if (i === index) btn.classList.add('current');
-    if (markedQuestions.has(key)) btn.classList.add('marked');
-    if (answeredQuestions.has(i)) {
-      btn.classList.add(userAnswers.get(i) === q.answer ? 'answered-correct' : 'answered-incorrect');
-    }
-
-    btn.onclick = () => {
-      if (currentMode !== 'study') return;
-      saveCurrentNote();
-      index = i;
-      renderQuestion();
-    };
-
-    nav.appendChild(btn);
-  });
-
-  const answered = answeredQuestions.size;
-  const remaining = quiz.length - answered;
-  const score = answered ? Math.round(correct / answered * 100) : 0;
-
-  document.getElementById('answeredCount').innerText = answered;
-  document.getElementById('remainingCount').innerText = remaining;
-  document.getElementById('markedCount').innerText = markedQuestions.size;
-  document.getElementById('sidebarScore').innerText = answered ? `${score}%` : '--';
-}
-
-function updateLiveScore() {
-  const liveScore = document.getElementById('liveScore');
-  if (currentMode !== 'study') {
-    liveScore.innerText = '';
-    return;
-  }
-
-  const answered = answeredQuestions.size;
-  const pct = answered ? Math.round(correct / answered * 100) : 0;
-  liveScore.innerText = answered
-    ? `Study score: ${pct}% (${correct}/${answered}) - ${pct >= 74 ? 'PASSING' : 'NOT PASSING'}`
-    : 'Study score: no answers yet';
-}
-
-function renderQuestion() {
-  const q = quiz[index];
-  const key = getQuestionKey(q);
-
-  document.getElementById('progress').innerText = `Question ${index + 1} of ${quiz.length}`;
-  document.getElementById('qid').innerText = q.id;
-  document.getElementById('question').innerText = q.question;
-  document.getElementById('userNotes').value = questionNotes.get(key) || '';
-
-  const options = document.getElementById('options');
-  options.innerHTML = '';
-
-  ['A', 'B', 'C', 'D'].forEach(letter => {
-    const row = document.createElement('button');
-    row.className = 'answer-row';
-    row.innerHTML = `<span class="answer-letter">${letter}</span><span>${q.options[letter]}</span>`;
-
-    if (answeredQuestions.has(index)) {
-      row.disabled = true;
-      const selected = userAnswers.get(index);
-      if (currentMode === 'study') {
-        if (letter === q.answer) row.classList.add('correct');
-        if (letter === selected && selected !== q.answer) row.classList.add('wrong');
-      }
-    }
-
-    row.onclick = () => answerQuestion(letter, row, q);
-    options.appendChild(row);
-  });
-
-  document.getElementById('markBtn').innerText = markedQuestions.has(key) ? 'Unmark' : 'Mark';
-  document.getElementById('prevBtn').disabled = currentMode !== 'study' || index === 0;
-  document.getElementById('nextBtn').disabled = !answeredQuestions.has(index);
-
-  updateSidebar();
-  updateLiveScore();
-}
-
-function answerQuestion(letter, btn, q) {
-  if (answeredQuestions.has(index)) return;
-
-  answeredQuestions.add(index);
-  userAnswers.set(index, letter);
-  if (letter === q.answer) correct++;
-
-  document.querySelectorAll('.answer-row').forEach(x => x.disabled = true);
-
-  if (currentMode === 'study') {
-    if (letter === q.answer) {
-      btn.classList.add('correct');
-    } else {
-      btn.classList.add('wrong');
-      document.querySelectorAll('.answer-row').forEach(x => {
-        if (x.innerText.trim().startsWith(q.answer)) x.classList.add('correct');
-      });
-    }
-  }
-
-  document.getElementById('nextBtn').disabled = false;
-  updateSidebar();
-  updateLiveScore();
-}
-
-function toggleMarkedQuestion() {
-  const q = quiz[index];
-  const key = getQuestionKey(q);
-  if (markedQuestions.has(key)) markedQuestions.delete(key);
-  else markedQuestions.add(key);
-  renderQuestion();
-}
-
-function saveCurrentNote() {
-  if (!quiz.length) return;
-  const key = getQuestionKey(quiz[index]);
-  questionNotes.set(key, document.getElementById('userNotes').value);
-}
-
-function previousQuestion() {
-  if (currentMode !== 'study' || index <= 0) return;
-  saveCurrentNote();
-  index--;
-  renderQuestion();
-}
-
-function nextQuestion() {
-  saveCurrentNote();
-  index++;
-  if (index >= quiz.length) {
-    finishQuiz();
-    return;
-  }
-  renderQuestion();
-}
-
-function finishQuiz() {
-  saveCurrentNote();
-  const pct = Math.round(correct / quiz.length * 100);
-  document.getElementById('quiz').style.display = 'none';
-  document.getElementById('results').style.display = 'block';
-  document.getElementById('results').innerHTML = `
-    <h2>Results</h2>
-    <p><b>Mode:</b> ${currentMode === 'study' ? 'Study' : 'Test'}</p>
-    <p><b>Score:</b> ${pct}%</p>
-    <p><b>Correct:</b> ${correct} / ${quiz.length}</p>
-    <p><b>Marked:</b> ${markedQuestions.size}</p>
-    <p><b>Status:</b> ${pct >= 74 ? 'PASSING' : 'NOT PASSING'}</p>
-  `;
-}
-
-initApp();
-</script>
-
+<script src="./js/questionLoader.js?v=20260528-11"></script>
+<script src="./js/app_v10.js?v=20260528-11"></script>
 </body>
 </html>
