@@ -1,15 +1,39 @@
-async function loadQuestionPool() {
-  const manifestResponse = await fetch('./data/manifest.json');
+const FALLBACK_QUESTIONS = [
+  {
+    id: '1-1A1',
+    element: '1',
+    question: 'What is a requirement of all marine transmitting apparatus used aboard United States vessels?',
+    options: {
+      A: 'Only equipment that has been certified by the FCC for Part 80 operations is authorized.',
+      B: 'Equipment must be type-accepted by the U.S. Coast Guard for maritime mobile use.',
+      C: 'Certification is required by the International Maritime Organization (IMO).',
+      D: 'Programming of all maritime channels must be performed by a licensed Marine Radio Operator.'
+    },
+    answer: 'A'
+  }
+];
 
-  if (!manifestResponse.ok) {
-    throw new Error(`Unable to load question manifest: ${manifestResponse.status}`);
+async function loadQuestionPool() {
+  let manifest;
+
+  try {
+    const manifestResponse = await fetch('./data/manifest.json', { cache: 'no-store' });
+
+    if (!manifestResponse.ok) {
+      throw new Error(`Unable to load question manifest: ${manifestResponse.status}`);
+    }
+
+    manifest = await manifestResponse.json();
+  } catch (error) {
+    console.error(error);
+    return FALLBACK_QUESTIONS;
   }
 
-  const manifest = await manifestResponse.json();
+  const loadedPools = [];
 
-  const pools = await Promise.all(
-    manifest.pools.map(async (pool) => {
-      const response = await fetch(`./data/${pool.file}`);
+  for (const pool of manifest.pools) {
+    try {
+      const response = await fetch(`./data/${pool.file}`, { cache: 'no-store' });
 
       if (!response.ok) {
         throw new Error(`Unable to load ${pool.file}: ${response.status}`);
@@ -21,9 +45,11 @@ async function loadQuestionPool() {
         throw new Error(`${pool.file} must contain an array of questions.`);
       }
 
-      return questions;
-    })
-  );
+      loadedPools.push(...questions);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-  return pools.flat();
+  return loadedPools.length ? loadedPools : FALLBACK_QUESTIONS;
 }
