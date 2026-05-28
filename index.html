@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>FCC Prep Trainer</title>
-<link rel="stylesheet" href="./css/style.css?v=20260528-7">
+<link rel="stylesheet" href="./css/style.css?v=20260528-8">
 </head>
 <body>
 
@@ -18,6 +18,12 @@
 <option value="3">Element 3 - General Radiotelephone</option>
 </select>
 
+<label for="mode">Mode</label>
+<select id="mode">
+<option value="study">Study Mode - show answers and navigation</option>
+<option value="test">Test Mode - results only at end</option>
+</select>
+
 <label for="count">Question Count</label>
 <input id="count" type="number" value="35">
 
@@ -26,11 +32,9 @@
 
 <div id="quiz" class="card" style="display:none;">
 <div id="progress"></div>
-<h2 id="qid"></h2>
-<div id="question"></div>
-<div id="options"></div>
+<div id="liveScore" style="margin-top:8px;"></div>
 
-<div id="studyTools" style="margin-top:16px;">
+<div id="studyTools" style="margin-top:16px;margin-bottom:16px;">
   <button id="markBtn" onclick="toggleMarkedQuestion()">Mark Question</button>
   <div id="markStatus" style="margin-top:10px;"></div>
   <label for="questionJump" style="display:block;margin-top:12px;">Jump to Question</label>
@@ -39,20 +43,25 @@
   <button id="nextMarkedBtn" onclick="nextMarkedQuestion()">Next Marked</button>
 </div>
 
+<h2 id="qid"></h2>
+<div id="question"></div>
+<div id="options"></div>
 <button id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
 </div>
 
 <div id="results" class="card" style="display:none;"></div>
 
-<script src="./js/questionLoader.js?v=20260528-7"></script>
+<script src="./js/questionLoader.js?v=20260528-8"></script>
 <script>
 let BANK = [];
 let quiz = [];
 let index = 0;
 let correct = 0;
 let requestedCount = 0;
+let currentMode = 'study';
 let markedQuestions = new Set();
 let answeredQuestions = new Set();
+let userAnswers = new Map();
 
 function shuffle(arr) {
   return [...arr].sort(() => Math.random() - 0.5);
@@ -94,16 +103,10 @@ async function initApp() {
 }
 
 function buildQuizPool(pool, count) {
-  if (!pool.length) {
-    return [];
-  }
+  if (!pool.length) return [];
 
   let output = [];
-
-  while (output.length < count) {
-    output = output.concat(shuffle(pool));
-  }
-
+  while (output.length < count) output = output.concat(shuffle(pool));
   return output.slice(0, count);
 }
 
@@ -114,6 +117,7 @@ function startQuiz() {
   }
 
   requestedCount = parseInt(document.getElementById('count').value, 10) || 35;
+  currentMode = document.getElementById('mode').value;
 
   const filtered = getSelectedPool();
   quiz = buildQuizPool(filtered, requestedCount);
@@ -122,6 +126,7 @@ function startQuiz() {
   correct = 0;
   markedQuestions = new Set();
   answeredQuestions = new Set();
+  userAnswers = new Map();
 
   document.getElementById('results').style.display = 'none';
   document.getElementById('quiz').style.display = 'block';
@@ -141,8 +146,9 @@ function updateJumpMenu() {
   quiz.forEach((q, i) => {
     const option = document.createElement('option');
     const mark = markedQuestions.has(getQuestionKey(q)) ? '★ ' : '';
+    const answered = answeredQuestions.has(i) ? '✓ ' : '';
     option.value = i;
-    option.text = `${mark}${i + 1}. ${q.id}`;
+    option.text = `${mark}${answered}${i + 1}. ${q.id}`;
     jump.appendChild(option);
   });
 }
@@ -157,16 +163,37 @@ function updateMarkedUi(q) {
     ? `★ Marked for review (${markedCount} marked)`
     : `${markedCount} marked for review`;
 
+  const studyNavigation = currentMode === 'study';
+  document.getElementById('questionJump').style.display = studyNavigation ? 'block' : 'none';
+  document.querySelector('label[for="questionJump"]').style.display = studyNavigation ? 'block' : 'none';
+  document.getElementById('prevBtn').style.display = studyNavigation ? 'block' : 'none';
+  document.getElementById('nextMarkedBtn').style.display = studyNavigation ? 'block' : 'none';
+
   document.getElementById('prevBtn').disabled = index === 0;
   document.getElementById('nextMarkedBtn').disabled = markedCount === 0;
   document.getElementById('questionJump').value = index;
+}
+
+function updateLiveScore() {
+  const liveScore = document.getElementById('liveScore');
+
+  if (currentMode !== 'study') {
+    liveScore.innerText = '';
+    return;
+  }
+
+  const answered = answeredQuestions.size;
+  const pct = answered ? Math.round(correct / answered * 100) : 0;
+  liveScore.innerText = answered
+    ? `Study score: ${pct}% (${correct}/${answered}) - ${pct >= 74 ? 'PASSING' : 'NOT PASSING'}`
+    : 'Study score: no answers yet';
 }
 
 function renderQuestion() {
   const q = quiz[index];
 
   document.getElementById('progress').innerText =
-    `Question ${index + 1} / ${quiz.length} (requested ${requestedCount})`;
+    `Question ${index + 1} / ${quiz.length} (${currentMode === 'study' ? 'Study' : 'Test'} Mode)`;
 
   document.getElementById('qid').innerText = q.id;
   document.getElementById('question').innerText = q.question;
@@ -179,66 +206,75 @@ function renderQuestion() {
     btn.className = 'option';
     btn.innerText = letter + '. ' + q.options[letter];
 
-    btn.onclick = () => {
-      document.querySelectorAll('.option').forEach(x => x.disabled = true);
-      answeredQuestions.add(index);
-
-      if (letter === q.answer) {
-        btn.classList.add('correct');
-        correct++;
-      } else {
-        btn.classList.add('wrong');
-
-        document.querySelectorAll('.option').forEach(x => {
-          if (x.innerText.startsWith(q.answer + '.')) {
-            x.classList.add('correct');
-          }
-        });
+    if (answeredQuestions.has(index)) {
+      btn.disabled = true;
+      const selected = userAnswers.get(index);
+      if (currentMode === 'study') {
+        if (letter === q.answer) btn.classList.add('correct');
+        if (letter === selected && selected !== q.answer) btn.classList.add('wrong');
       }
+    }
 
-      document.getElementById('nextBtn').disabled = false;
-    };
-
+    btn.onclick = () => answerQuestion(letter, btn, q);
     options.appendChild(btn);
   });
 
-  document.getElementById('nextBtn').disabled = answeredQuestions.has(index) ? false : true;
+  document.getElementById('nextBtn').disabled = !answeredQuestions.has(index);
   updateMarkedUi(q);
+  updateLiveScore();
+}
+
+function answerQuestion(letter, btn, q) {
+  if (answeredQuestions.has(index)) return;
+
+  answeredQuestions.add(index);
+  userAnswers.set(index, letter);
+
+  if (letter === q.answer) correct++;
+
+  document.querySelectorAll('.option').forEach(x => x.disabled = true);
+
+  if (currentMode === 'study') {
+    if (letter === q.answer) {
+      btn.classList.add('correct');
+    } else {
+      btn.classList.add('wrong');
+      document.querySelectorAll('.option').forEach(x => {
+        if (x.innerText.startsWith(q.answer + '.')) x.classList.add('correct');
+      });
+    }
+  }
+
+  updateJumpMenu();
+  updateLiveScore();
+  document.getElementById('nextBtn').disabled = false;
 }
 
 function toggleMarkedQuestion() {
   const q = quiz[index];
   const key = getQuestionKey(q);
 
-  if (markedQuestions.has(key)) {
-    markedQuestions.delete(key);
-  } else {
-    markedQuestions.add(key);
-  }
+  if (markedQuestions.has(key)) markedQuestions.delete(key);
+  else markedQuestions.add(key);
 
   updateJumpMenu();
   updateMarkedUi(q);
 }
 
 function jumpToQuestion() {
-  const jump = document.getElementById('questionJump');
-  index = parseInt(jump.value, 10);
+  if (currentMode !== 'study') return;
+  index = parseInt(document.getElementById('questionJump').value, 10);
   renderQuestion();
 }
 
 function previousQuestion() {
-  if (index <= 0) {
-    return;
-  }
-
+  if (currentMode !== 'study' || index <= 0) return;
   index--;
   renderQuestion();
 }
 
 function nextMarkedQuestion() {
-  if (!markedQuestions.size) {
-    return;
-  }
+  if (currentMode !== 'study' || !markedQuestions.size) return;
 
   for (let offset = 1; offset <= quiz.length; offset++) {
     const candidate = (index + offset) % quiz.length;
@@ -269,9 +305,9 @@ function finishQuiz() {
 
   document.getElementById('results').innerHTML = `
     <h2>Results</h2>
+    <p><b>Mode:</b> ${currentMode === 'study' ? 'Study' : 'Test'}</p>
     <p><b>Score:</b> ${pct}%</p>
     <p><b>Correct:</b> ${correct} / ${quiz.length}</p>
-    <p><b>Requested:</b> ${requestedCount}</p>
     <p><b>Marked:</b> ${markedQuestions.size}</p>
     <p><b>Status:</b> ${pct >= 74 ? 'PASSING' : 'NOT PASSING'}</p>
   `;
