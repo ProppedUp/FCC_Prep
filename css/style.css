@@ -5,6 +5,7 @@ font-family:Arial,sans-serif;
 max-width:1180px;
 margin:auto;
 padding:20px;
+overflow-x:auto;
 }
 .card {
 background:#111827;
@@ -50,11 +51,12 @@ margin-right:auto;
 }
 .quiz-shell {
 display:grid;
-grid-template-columns:235px minmax(0, 820px);
-gap:16px;
+grid-template-columns:220px 760px;
+gap:14px;
 justify-content:center;
 align-items:start;
-max-width:1080px;
+width:994px;
+max-width:994px;
 margin:0 auto 20px auto;
 }
 .question-sidebar {
@@ -62,8 +64,8 @@ background:#0b1220;
 border:1px solid #1f2937;
 border-radius:14px;
 padding:12px;
-height:620px;
-max-height:620px;
+height:590px;
+max-height:590px;
 overflow:hidden;
 display:flex;
 flex-direction:column;
@@ -143,8 +145,8 @@ background:#9ca3af;
 .marked-dot { background:#f59e0b; }
 .quiz-main {
 min-width:0;
-height:620px;
-max-height:620px;
+height:590px;
+max-height:590px;
 margin:0;
 display:flex;
 flex-direction:column;
@@ -164,8 +166,8 @@ margin-bottom:8px;
 background:#1f2937;
 border-radius:10px;
 padding:16px;
-min-height:115px;
-max-height:170px;
+min-height:110px;
+max-height:150px;
 overflow-y:auto;
 margin-bottom:14px;
 }
@@ -214,7 +216,7 @@ color:#cbd5e1;
 }
 #userNotes {
 width:100%;
-height:78px;
+height:70px;
 box-sizing:border-box;
 resize:none;
 }
@@ -230,32 +232,32 @@ padding:9px 8px;
 }
 @media (max-width: 760px) {
 body {
-padding:12px;
+padding:10px;
 }
 .quiz-shell {
-grid-template-columns:1fr;
-max-width:100%;
+grid-template-columns:180px 620px;
+width:814px;
+max-width:814px;
+justify-content:start;
+margin-left:0;
+margin-right:0;
 }
 .question-sidebar {
-height:180px;
-max-height:180px;
-}
-.question-list {
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(72px,1fr));
-}
-.nav-question {
-text-align:center;
+height:560px;
+max-height:560px;
 }
 .quiz-main {
-height:auto;
-max-height:none;
+height:560px;
+max-height:560px;
 }
-.answers {
-flex:unset;
-overflow:visible;
+.nav-question {
+font-size:13px;
+padding:6px;
+}
+.answer-row {
+font-size:15px;
 }
 .bottom-toolbar {
-grid-template-columns:1fr;
+grid-template-columns:repeat(5, 1fr);
 }
 }
