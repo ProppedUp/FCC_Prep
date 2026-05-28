@@ -17,12 +17,21 @@ async function initApp() {
   } catch (error) {
     console.error(error);
     status.innerText = 'Question data failed to load.';
-    document.getElementById('results').style.display = 'block';
-    document.getElementById('results').innerHTML = `
-      <h2>Question data failed to load</h2>
-      <p>Please refresh the page or check the JSON files in the data folder.</p>
-    `;
   }
+}
+
+function buildQuizPool(pool, count) {
+  if (!pool.length) {
+    return [];
+  }
+
+  let output = [];
+
+  while (output.length < count) {
+    output = output.concat(shuffle(pool));
+  }
+
+  return output.slice(0, count);
 }
 
 function startQuiz() {
@@ -34,8 +43,9 @@ function startQuiz() {
   const element = document.getElementById('element').value;
   const count = parseInt(document.getElementById('count').value, 10);
 
-  quiz = BANK.filter(q => element === 'all' || q.element === element);
-  quiz = shuffle(quiz).slice(0, count);
+  const filtered = BANK.filter(q => element === 'all' || q.element === element);
+
+  quiz = buildQuizPool(filtered, count);
 
   index = 0;
   correct = 0;
