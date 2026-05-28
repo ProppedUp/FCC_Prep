@@ -1,0 +1,16 @@
+{
+  "pools": [
+    {
+      "element": "1",
+      "name": "Element 1 - Marine Radio Operator Permit",
+      "file": "element1.json",
+      "questionCount": 144
+    },
+    {
+      "element": "3",
+      "name": "Element 3 - General Radiotelephone",
+      "file": "element3.json",
+      "questionCount": 600
+    }
+  ]
+}
