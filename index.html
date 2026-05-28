@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>FCC Prep Trainer</title>
-<link rel="stylesheet" href="./css/style.css?v=20260528-5">
+<link rel="stylesheet" href="./css/style.css?v=20260528-6">
 </head>
 <body>
 
@@ -12,7 +12,7 @@
 
 <div class="card">
 <label for="element">Element</label>
-<select id="element">
+<select id="element" onchange="updateQuestionStatus()">
 <option value="all">All Elements</option>
 <option value="1">Element 1 - Marine Radio Operator Permit</option>
 <option value="3">Element 3 - General Radiotelephone</option>
@@ -34,7 +34,7 @@
 
 <div id="results" class="card" style="display:none;"></div>
 
-<script src="./js/questionLoader.js?v=20260528-5"></script>
+<script src="./js/questionLoader.js?v=20260528-6"></script>
 <script>
 let BANK = [];
 let quiz = [];
@@ -46,12 +46,34 @@ function shuffle(arr) {
   return [...arr].sort(() => Math.random() - 0.5);
 }
 
+function getSelectedPool() {
+  const element = document.getElementById('element').value;
+  return BANK.filter(q => element === 'all' || q.element === element);
+}
+
+function getSelectedElementLabel() {
+  const select = document.getElementById('element');
+  return select.options[select.selectedIndex].text;
+}
+
+function updateQuestionStatus() {
+  const status = document.getElementById('questionStatus');
+
+  if (!BANK.length) {
+    status.innerText = 'Loading questions...';
+    return;
+  }
+
+  const selectedPool = getSelectedPool();
+  status.innerText = `${getSelectedElementLabel()}: ${selectedPool.length} questions available (${BANK.length} total loaded)`;
+}
+
 async function initApp() {
   const status = document.getElementById('questionStatus');
 
   try {
     BANK = await loadQuestionPool();
-    status.innerText = `Questions available now: ${BANK.length}`;
+    updateQuestionStatus();
     document.getElementById('startBtn').disabled = false;
   } catch (error) {
     console.error(error);
@@ -79,10 +101,9 @@ function startQuiz() {
     return;
   }
 
-  const element = document.getElementById('element').value;
   requestedCount = parseInt(document.getElementById('count').value, 10) || 35;
 
-  const filtered = BANK.filter(q => element === 'all' || q.element === element);
+  const filtered = getSelectedPool();
   quiz = buildQuizPool(filtered, requestedCount);
 
   index = 0;
