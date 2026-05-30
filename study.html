@@ -8,9 +8,6 @@
 
   gtag('config', 'G-K14XB24TH1');
 </script>
-  
-  
-  
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#1b1b1b">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,15 +16,10 @@
   <meta name="mobile-web-app-capable" content="yes">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="fccprepicon.png">
-  
   <title>FCCPrep.com</title>
-  
-  <link rel="stylesheet" href="./css/style.css?v=20260529-study1">
-
+  <link rel="stylesheet" href="./css/style.css?v=20260530-history1">
 </head>
-  
   <body>
-    
     <h1>FCCPrep.com</h1>
     <p id="questionStatus">Loading questions...</p>
     <div id="resumeBox" class="card setup-card" style="display:none;"></div>
@@ -35,7 +27,10 @@
       <label for="element">Element</label>
       <select id="element" onchange="updateQuestionStatus()"><option value="all">All Elements</option><option value="1">Element 1 - Marine Radio Operator Permit</option><option value="3">Element 3 - General Radiotelephone</option><option value="8">Element 8 - Ship Radar Endorsement</option></select>
       <label for="mode">Mode</label><select id="mode"><option value="study">Study Mode - show answers and navigation</option><option value="test">Test Mode - results only at end</option></select>
-      <label for="count">Question Count</label><input id="count" type="number" value="35"><button id="startBtn" onclick="startQuiz()" disabled>Start Quiz</button></div><div id="quiz" class="quiz-shell" style="display:none;"><aside class="question-sidebar">
+      <label for="count">Question Count</label><input id="count" type="number" value="35"><button id="startBtn" onclick="startQuiz()" disabled>Start Quiz</button>
+    </div>
+    <div id="historyBox" class="card setup-card history-card" style="display:none;"></div>
+    <div id="quiz" class="quiz-shell" style="display:none;"><aside class="question-sidebar">
         <div class="sidebar-title" id="sidebarTitle">Questions</div>
         <div class="sidebar-meta"><div><span>Answered:</span><strong id="answeredCount">0</strong></div>
           <div><span>Remaining:</span><strong id="remainingCount">0</strong></div>
@@ -57,8 +52,6 @@
             <button id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
             <button onclick="finishQuiz()">Finish</button></div></main></div>
     <div id="results" class="card" style="display:none;"></div>
-    <script src="./js/questionLoader.js?v=20260529-study1"></script><script src="./js/app_v10.js?v=20260529-study1"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(console.error);});}</script>
-  
+    <script src="./js/questionLoader.js?v=20260530-history1"></script><script src="./js/app_v10.js?v=20260530-history1"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(console.error);});}</script>
   </body>
 </html>
-
