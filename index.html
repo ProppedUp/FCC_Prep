@@ -2,7 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1b1b1b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FCCPrep">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="fccprepicon.png">
 <link rel="apple-touch-icon" href="fccprepicon.png">
 <title>FCCPrep.com - Commercial FCC License Exam Preparation</title>
@@ -25,6 +31,8 @@ body{
     color:var(--text);
     font-family:Arial, Helvetica, sans-serif;
     line-height:1.6;
+    padding-top:env(safe-area-inset-top);
+    padding-bottom:env(safe-area-inset-bottom);
 }
 .container{
     max-width:1100px;
@@ -142,7 +150,7 @@ body{
 <section class="card">
     <h2>Study Features</h2>
     <div class="features">
-        <div class="feature">Question Pools derived from offical FCC publications</div>
+        <div class="feature">Question Pools derived from official FCC publications</div>
         <div class="feature">Study Mode provides instant feedback</div>
         <div class="feature">Test Mode mimics your real exam</div>
     </div>
@@ -156,5 +164,12 @@ body{
     FCCPrep.com • Not affiliated with the Federal Communications Commission
 </div>
 </div>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(error => console.error('Service worker registration failed:', error));
+    });
+}
+</script>
 </body>
 </html>
