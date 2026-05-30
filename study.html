@@ -36,4 +36,29 @@
       <select id="element" onchange="updateQuestionStatus()"><option value="all">All Elements</option><option value="1">Element 1 - Marine Radio Operator Permit</option><option value="3">Element 3 - General Radiotelephone</option><option value="8">Element 8 - Ship Radar Endorsement</option></select>
       <label for="mode">Mode</label><select id="mode"><option value="study">Study Mode - show answers and navigation</option><option value="test">Test Mode - results only at end</option></select>
       <label for="count">Question Count</label><input id="count" type="number" value="35"><button id="startBtn" onclick="startQuiz()" disabled>Start Quiz</button></div><div id="quiz" class="quiz-shell" style="display:none;"><aside class="question-sidebar">
-        <div class="sidebar-title" id="sidebarTitle">Questions</div><div class="sidebar-meta"><div><span>Answered:</span><strong id="answeredCount">0</strong></div><div><span>Remaining:</span><strong id="remainingCount">0</strong></div><div><span>Marked:</span><strong id="markedCount">0</strong></div><div id="scoreLine"><span>Score:</span><strong id="sidebarScore">--</strong></div></div><div id="questionNav" class="question-list"></div><div class="legend"><div><span class="dot unanswered"></span>Unanswered</div><div><span class="dot correct-dot"></span>Correct</div><div><span class="dot incorrect-dot"></span>Incorrect</div><div><span class="dot marked-dot"></span>Marked</div></div></aside><main class="quiz-main card"><div id="progress" class="progress-line"></div><div id="liveScore" class="live-score"></div><section class="question-box"><h2 id="qid"></h2><div id="question"></div></section><section id="options" class="answers"></section><div class="bottom-toolbar"><button onclick="saveSession(true)">Save Session</button><button id="markBtn" onclick="toggleMarkedQuestion()">Mark</button><button id="prevBtn" onclick="previousQuestion()">Previous</button><button id="nextBtn" onclick="nextQuestion()" disabled>Next</button><button onclick="finishQuiz()">Finish</button></div></main></div><div id="results" class="card" style="display:none;"></div><script src="./js/questionLoader.js?v=20260529-study1"></script><script src="./js/app_v10.js?v=20260529-study1"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(console.error);});}</script></body></html>
+        <div class="sidebar-title" id="sidebarTitle">Questions</div>
+        <div class="sidebar-meta"><div><span>Answered:</span><strong id="answeredCount">0</strong></div>
+          <div><span>Remaining:</span><strong id="remainingCount">0</strong></div>
+          <div><span>Marked:</span><strong id="markedCount">0</strong></div>
+          <div id="scoreLine"><span>Score:</span><strong id="sidebarScore">--</strong></div></div>
+        <div id="questionNav" class="question-list"></div>
+        <div class="legend"><div><span class="dot unanswered"></span>Unanswered</div>
+          <div><span class="dot correct-dot"></span>Correct</div><div>
+            <span class="dot incorrect-dot"></span>Incorrect</div><div>
+              <span class="dot marked-dot"></span>Marked</div></div></aside>
+        <main class="quiz-main card"><div id="progress" class="progress-line"></div>
+          <div id="liveScore" class="live-score"></div>
+          <section class="question-box"><h2 id="qid"></h2>
+            <div id="question"></div></section>
+          <section id="options" class="answers"></section>
+          <div class="bottom-toolbar"><button onclick="saveSession(true)">Save Session</button>
+            <button id="markBtn" onclick="toggleMarkedQuestion()">Mark</button>
+            <button id="prevBtn" onclick="previousQuestion()">Previous</button>
+            <button id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
+            <button onclick="finishQuiz()">Finish</button></div></main></div>
+    <div id="results" class="card" style="display:none;"></div>
+    <script src="./js/questionLoader.js?v=20260529-study1"></script><script src="./js/app_v10.js?v=20260529-study1"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(console.error);});}</script>
+  
+  </body>
+</html>
+
