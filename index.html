@@ -2,176 +2,201 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-K14XB24TH1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-K14XB24TH1');
-</script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#1b1b1b">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="FCCPrep">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" href="fccprepicon.png">
-<link rel="apple-touch-icon" href="fccprepicon.png">
-<title>FCCPrep.com - Commercial FCC License Exam Preparation</title>
-<style>
-:root{
-    --bg:#1b1b1b;
-    --card:#2f2f2f;
-    --card2:#3b3b3b;
-    --border:#555;
-    --text:#f5f5f5;
-    --muted:#cfcfcf;
-    --accent:#2563eb;
-}
-*{
-    box-sizing:border-box;
-}
-body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:Arial, Helvetica, sans-serif;
-    line-height:1.6;
-    padding-top:env(safe-area-inset-top);
-    padding-bottom:env(safe-area-inset-bottom);
-}
-.container{
-    max-width:1100px;
-    margin:auto;
-    padding:40px 20px;
-}
-.hero{
-    text-align:center;
-    padding:50px 0;
-}
-.hero h1{
-    font-size:4rem;
-    margin:0;
-}
-.hero p{
-    color:var(--muted);
-    font-size:1.2rem;
-    margin-top:10px;
-}
-.card{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:30px;
-    margin-bottom:24px;
-}
-.card h2{
-    margin-top:0;
-}
-.features{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-    margin-top:20px;
-}
-.feature{
-    background:var(--card2);
-    border-radius:10px;
-    padding:15px;
-}
-.button-row{
-    text-align:center;
-    margin-top:30px;
-}
-.btn{
-    display:inline-block;
-    background:var(--accent);
-    color:white;
-    text-decoration:none;
-    padding:16px 30px;
-    border-radius:10px;
-    font-size:18px;
-    font-weight:bold;
-}
-.btn:hover{
-    opacity:.9;
-}
-.stats{
-    display:flex;
-    justify-content:center;
-    gap:40px;
-    margin-top:20px;
-    flex-wrap:wrap;
-}
-.stat{
-    text-align:center;
-}
-.stat-number{
-    font-size:2rem;
-    font-weight:bold;
-}
-.footer{
-    text-align:center;
-    color:#9ca3af;
-    margin-top:30px;
-    padding-bottom:20px;
-}
-@media (max-width:768px){
-    .hero h1{
-        font-size:2.5rem;
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K14XB24TH1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-K14XB24TH1');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Free FCC GROL practice tests for Element 1, Element 3, and Element 8. Study commercial FCC license question pools with test mode, review tools, score history, and radar endorsement practice.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#1b1b1b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FCCPrep">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="canonical" href="https://fccprep.com/">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" href="fccprepicon.png">
+    <link rel="apple-touch-icon" href="fccprepicon.png">
+    <meta property="og:title" content="FCC GROL Practice Test | FCCPrep">
+    <meta property="og:description" content="Free FCC commercial radio license exam preparation for Element 1, Element 3, and Element 8 radar endorsement.">
+    <meta property="og:url" content="https://fccprep.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://fccprep.com/fccprepicon.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="FCC GROL Practice Test | FCCPrep">
+    <meta name="twitter:description" content="Free FCC commercial radio license exam prep for Element 1, Element 3, and Element 8.">
+    <title>FCC GROL Practice Test | Element 1, 3 &amp; 8 Exam Prep | FCCPrep</title>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "FCCPrep",
+      "url": "https://fccprep.com/",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Any",
+      "description": "Free FCC commercial radio license practice tests for Element 1, Element 3, and Element 8 radar endorsement.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
     }
-    .stats{
-        gap:20px;
+    </script>
+    <style>
+    :root{
+        --bg:#111827;
+        --bg2:#1b1b1b;
+        --card:#202938;
+        --card2:#2b3648;
+        --border:#465367;
+        --text:#f9fafb;
+        --muted:#cbd5e1;
+        --soft:#94a3b8;
+        --accent:#2563eb;
+        --accent2:#3b82f6;
+        --green:#22c55e;
+        --yellow:#facc15;
     }
-}
-</style>
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.6;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+    .container{max-width:1120px;margin:auto;padding:28px 20px 42px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:28px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}
+    .brand img{width:42px;height:42px;border-radius:10px}
+    .toplink{color:var(--muted);text-decoration:none;font-weight:700}
+    .toplink:hover{color:white}
+    .hero{display:grid;grid-template-columns:1.35fr .65fr;gap:28px;align-items:center;padding:34px 0 26px}
+    .eyebrow{display:inline-block;color:#bfdbfe;background:rgba(37,99,235,.18);border:1px solid rgba(59,130,246,.35);border-radius:999px;padding:7px 12px;font-size:14px;font-weight:700;margin-bottom:16px}
+    h1{font-size:4rem;line-height:1.03;margin:0 0 16px;letter-spacing:-1.8px}
+    .hero p{font-size:1.22rem;color:var(--muted);margin:0 0 22px;max-width:720px}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:white;text-decoration:none;padding:15px 24px;border-radius:12px;font-size:17px;font-weight:800;border:1px solid rgba(255,255,255,.08)}
+    .btn:hover{background:var(--accent2)}
+    .btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+    .btn.secondary:hover{background:rgba(255,255,255,.06)}
+    .hero-panel{background:rgba(32,41,56,.88);border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+    .metric{display:flex;justify-content:space-between;gap:14px;border-bottom:1px solid rgba(255,255,255,.1);padding:13px 0;color:var(--muted)}
+    .metric:last-child{border-bottom:0}
+    .metric strong{color:white;font-size:1.1rem}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;margin-bottom:22px}
+    .card h2,.card h3{margin-top:0;line-height:1.2}
+    .card p{color:var(--muted)}
+    .exam-card{display:flex;flex-direction:column;min-height:250px}
+    .exam-card .tag{display:inline-block;align-self:flex-start;border-radius:999px;background:rgba(37,99,235,.18);border:1px solid rgba(59,130,246,.35);color:#bfdbfe;padding:5px 10px;font-size:13px;font-weight:800;margin-bottom:12px}
+    .exam-card ul{margin:0 0 18px;padding-left:19px;color:var(--muted)}
+    .exam-card .btn{margin-top:auto;width:100%}
+    .feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+    .feature{background:var(--card2);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px}
+    .feature strong{display:block;margin-bottom:6px;color:white}
+    .feature span{color:var(--muted);font-size:14px}
+    .tip{border-left:6px solid var(--green);background:rgba(34,197,94,.1)}
+    .support{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(250,204,21,.08));border:1px solid var(--border)}
+    .beer{background:#f59e0b;color:#111827;border-color:rgba(255,255,255,.2)}
+    .beer:hover{background:#fbbf24;color:#111827}
+    .faq details{background:var(--card2);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;margin:10px 0;color:var(--muted)}
+    .faq summary{cursor:pointer;color:white;font-weight:800}
+    .footer{text-align:center;color:var(--soft);margin-top:30px;padding-bottom:18px;font-size:14px}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.feature-grid{grid-template-columns:1fr 1fr}.support{grid-template-columns:1fr}h1{font-size:3rem}}
+    @media(max-width:560px){.container{padding:18px 14px 32px}.topbar{align-items:flex-start}.hero{padding-top:18px}h1{font-size:2.45rem}.hero p{font-size:1.05rem}.hero-actions{flex-direction:column}.btn{width:100%}.feature-grid{grid-template-columns:1fr}.brand img{width:36px;height:36px}}
+    </style>
 </head>
 <body>
 <div class="container">
-<section class="hero">
-    <h1>FCCPrep.com</h1>
-    <p>Commercial FCC License Exam Prep</p>
-    
-</section>
-<section class="card">
-    
-    <p>
-        The General Radiotelephone Operator License (GROL) is an FCC issued
-        commercial radio operator license required for certain aviation and
-        maritime positions.
-    </p>
-    <p>
-        A GROL may be required for technicians who repair or
-        inspect aircraft radio communication and navigation
-        equipment. Many avionics shops, airlines, repair stations,
-        and government contractors prefer or require applicants
-        to hold a GROL.
-    </p>
-    <p>
-        To earn a GROL, you must pass FCC Element 1 and Element 3
-        examinations. To add a radar endorsement you must also pass Element 8. No prior experience is required, and the
-        license does not expire.
-    </p>
-</section>
-<section class="card">
-    <h2>Study Features</h2>
-    <div class="features">
-        <div class="feature">Question Pools derived from official FCC publications</div>
-        <div class="feature">Study Mode provides instant feedback</div>
-        <div class="feature">Test Mode mimics your real exam</div>
+    <header class="topbar">
+        <div class="brand"><img src="fccprepicon.png" alt="FCCPrep radio tower icon"><span>FCCPrep.com</span></div>
+        <a class="toplink" href="study.html">Open Study App</a>
+    </header>
+
+    <section class="hero">
+        <div>
+            <span class="eyebrow">Free commercial FCC exam preparation</span>
+            <h1>FCC GROL Practice Tests</h1>
+            <p>Study FCC Element 1, Element 3, and Element 8 with practice exams built from official FCC question pools. Use Study Mode for instant feedback, Test Mode for exam-style practice, and Review Mode to focus on missed and marked questions.</p>
+            <div class="hero-actions">
+                <a class="btn" href="study.html">Start Studying</a>
+                <a class="btn secondary" href="#exams">View Exam Elements</a>
+            </div>
+        </div>
+        <aside class="hero-panel" aria-label="FCCPrep highlights">
+            <div class="metric"><span>Question pools loaded</span><strong>1,044</strong></div>
+            <div class="metric"><span>Current elements</span><strong>1, 3, 8</strong></div>
+            <div class="metric"><span>Modes</span><strong>Study + Test</strong></div>
+            <div class="metric"><span>Cost</span><strong>Free</strong></div>
+        </aside>
+    </section>
+
+    <section id="exams" class="grid" aria-label="Available exam elements">
+        <article class="card exam-card">
+            <span class="tag">Element 1</span>
+            <h2>Marine Radio Operator Permit</h2>
+            <p>Practice the basic radio law and operating procedures used as the foundation for several FCC commercial operator licenses.</p>
+            <ul><li>144-question pool</li><li>Required for GROL</li><li>Useful for marine radio operations</li></ul>
+            <a class="btn" href="study.html">Study Element 1</a>
+        </article>
+        <article class="card exam-card">
+            <span class="tag">Element 3</span>
+            <h2>General Radiotelephone Operator License</h2>
+            <p>Prepare for the technical FCC commercial radiotelephone exam commonly associated with avionics, repair stations, and radio service work.</p>
+            <ul><li>600-question pool</li><li>Core GROL element</li><li>Commercial radio focus</li></ul>
+            <a class="btn" href="study.html">Study Element 3</a>
+        </article>
+        <article class="card exam-card">
+            <span class="tag">Element 8</span>
+            <h2>Ship Radar Endorsement</h2>
+            <p>Study radar operating principles, safety, and commercial ship radar topics for the FCC radar endorsement path.</p>
+            <ul><li>300-question pool</li><li>Radar endorsement prep</li><li>Review missed questions</li></ul>
+            <a class="btn" href="study.html">Study Element 8</a>
+        </article>
+    </section>
+
+    <section class="card">
+        <h2>Built for focused exam prep</h2>
+        <div class="feature-grid">
+            <div class="feature"><strong>Study Mode</strong><span>Get immediate feedback while learning each question pool.</span></div>
+            <div class="feature"><strong>Test Mode</strong><span>Take exam-style sessions without answer leakage during the test.</span></div>
+            <div class="feature"><strong>Review Mode</strong><span>Review missed and marked questions after finishing a test.</span></div>
+            <div class="feature"><strong>Score History</strong><span>Track recent test results locally on your device.</span></div>
+        </div>
+    </section>
+
+    <section class="card tip">
+        <h2>Readiness guideline</h2>
+        <p>Score history provides a useful progress metric. As a general guideline, consider consistently scoring <strong>90% or higher on at least three consecutive practice tests</strong> before sitting for your FCC examination.</p>
+    </section>
+
+    <section class="card faq">
+        <h2>Common questions</h2>
+        <details>
+            <summary>What elements do I need for a GROL?</summary>
+            <p>For the General Radiotelephone Operator License, candidates generally prepare for FCC Element 1 and Element 3.</p>
+        </details>
+        <details>
+            <summary>Does FCCPrep include the radar endorsement?</summary>
+            <p>Yes. FCCPrep currently includes Element 8 practice questions for ship radar endorsement preparation.</p>
+        </details>
+        <details>
+            <summary>Is FCCPrep affiliated with the FCC?</summary>
+            <p>No. FCCPrep.com is an independent study tool and is not affiliated with the Federal Communications Commission.</p>
+        </details>
+    </section>
+
+    <section class="card support">
+        <div>
+            <h2>Support FCCPrep</h2>
+            <p>FCCPrep is free to use. If it helped you study or saved you time, you can support future question pool updates and hosting costs.</p>
+        </div>
+        <a class="btn beer" href="#" aria-label="Buy me a beer support link">Buy me a beer</a>
+    </section>
+
+    <div class="footer">
+        FCCPrep.com • Free commercial FCC license exam preparation • Not affiliated with the Federal Communications Commission
     </div>
-    <div class="button-row">
-        <a class="btn" href="study.html">
-            Start Studying
-        </a>
-    </div>
-</section>
-<div class="footer">
-    FCCPrep.com • Not affiliated with the Federal Communications Commission
-</div>
 </div>
 <script>
 if ('serviceWorker' in navigator) {
