@@ -11,6 +11,12 @@
       "name": "Element 3 - General Radiotelephone",
       "file": "element3.json",
       "questionCount": 600
+    },
+    {
+      "element": "8",
+      "name": "Element 8 - Ship Radar Endorsement",
+      "file": "element8.json",
+      "questionCount": 300
     }
   ]
 }
