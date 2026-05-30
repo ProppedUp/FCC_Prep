@@ -87,6 +87,9 @@
     .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;margin-bottom:22px}
     .card h2,.card h3{margin-top:0;line-height:1.2}
     .card p{color:var(--muted)}
+    .about-grol{display:grid;grid-template-columns:.75fr 1.25fr;gap:22px;align-items:start}
+    .about-grol h2{font-size:2rem;margin-bottom:8px}
+    .about-grol .summary-pill{display:inline-block;color:#bfdbfe;background:rgba(37,99,235,.18);border:1px solid rgba(59,130,246,.35);border-radius:999px;padding:6px 11px;font-size:13px;font-weight:800}
     .exam-card{display:flex;flex-direction:column;min-height:250px}
     .exam-card .tag{display:inline-block;align-self:flex-start;border-radius:999px;background:rgba(37,99,235,.18);border:1px solid rgba(59,130,246,.35);color:#bfdbfe;padding:5px 10px;font-size:13px;font-weight:800;margin-bottom:12px}
     .exam-card ul{margin:0 0 18px;padding-left:19px;color:var(--muted)}
@@ -102,7 +105,7 @@
     .faq details{background:var(--card2);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;margin:10px 0;color:var(--muted)}
     .faq summary{cursor:pointer;color:white;font-weight:800}
     .footer{text-align:center;color:var(--soft);margin-top:30px;padding-bottom:18px;font-size:14px}
-    @media(max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.feature-grid{grid-template-columns:1fr 1fr}.support{grid-template-columns:1fr}h1{font-size:3rem}}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.feature-grid{grid-template-columns:1fr 1fr}.support{grid-template-columns:1fr}.about-grol{grid-template-columns:1fr}h1{font-size:3rem}}
     @media(max-width:560px){.container{padding:18px 14px 32px}.topbar{align-items:flex-start}.hero{padding-top:18px}h1{font-size:2.45rem}.hero p{font-size:1.05rem}.hero-actions{flex-direction:column}.btn{width:100%}.feature-grid{grid-template-columns:1fr}.brand img{width:36px;height:36px}}
     </style>
 </head>
@@ -131,6 +134,18 @@
         </aside>
     </section>
 
+    <section class="card about-grol">
+        <div>
+            <span class="summary-pill">About the GROL</span>
+            <h2>What is the General Radiotelephone Operator License?</h2>
+        </div>
+        <div>
+            <p>The General Radiotelephone Operator License (GROL) is an FCC-issued commercial radio operator license required for certain aviation and maritime positions.</p>
+            <p>A GROL may be required for technicians who repair or inspect aircraft radio communication and navigation equipment. Many avionics shops, airlines, repair stations, and government contractors prefer or require applicants to hold a GROL.</p>
+            <p>To earn a GROL, you must pass FCC Element 1 and Element 3 examinations. To add a radar endorsement, you must also pass Element 8. No prior experience is required, and the license does not expire.</p>
+        </div>
+    </section>
+
     <section id="exams" class="grid" aria-label="Available exam elements">
         <article class="card exam-card">
             <span class="tag">Element 1</span>
@@ -156,11 +171,11 @@
     </section>
 
     <section class="card">
-        <h2>Built for focused exam prep</h2>
+        <h2>Study Features</h2>
         <div class="feature-grid">
-            <div class="feature"><strong>Study Mode</strong><span>Get immediate feedback while learning each question pool.</span></div>
-            <div class="feature"><strong>Test Mode</strong><span>Take exam-style sessions without answer leakage during the test.</span></div>
-            <div class="feature"><strong>Review Mode</strong><span>Review missed and marked questions after finishing a test.</span></div>
+            <div class="feature"><strong>Question Pools</strong><span>Question pools derived from official FCC publications.</span></div>
+            <div class="feature"><strong>Study Mode</strong><span>Study Mode provides instant feedback while learning.</span></div>
+            <div class="feature"><strong>Test Mode</strong><span>Test Mode mimics your real exam without answer leakage during the test.</span></div>
             <div class="feature"><strong>Score History</strong><span>Track recent test results locally on your device.</span></div>
         </div>
     </section>
