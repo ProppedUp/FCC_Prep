@@ -1,0 +1,26 @@
+{
+  "name": "FCCPrep.com",
+  "short_name": "FCCPrep",
+  "description": "Commercial FCC license exam prep for Element 1 and Element 3.",
+  "start_url": "./study.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1b1b1b",
+  "theme_color": "#1b1b1b",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "./fccprepicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./fccprepicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
