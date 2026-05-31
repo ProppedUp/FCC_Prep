@@ -100,6 +100,9 @@
     .feature span{color:var(--muted);font-size:14px}
     .tip{border-left:6px solid var(--green);background:rgba(34,197,94,.1)}
     .support{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(250,204,21,.08));border:1px solid var(--border)}
+    .support a:not(.btn), .footer a{color:#bfdbfe;font-weight:800;text-decoration:none}
+    .support a:not(.btn):hover, .footer a:hover{text-decoration:underline}
+    .contact-line{margin-top:12px;color:var(--muted)}
     .beer{background:#f59e0b;color:#111827;border-color:rgba(255,255,255,.2)}
     .beer:hover{background:#fbbf24;color:#111827}
     .faq details{background:var(--card2);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;margin:10px 0;color:var(--muted)}
@@ -203,12 +206,13 @@
         <div>
             <h2>Support FCCPrep</h2>
             <p>FCCPrep is free to use. If it helped you study or saved you time, you can support future question pool updates and hosting costs.</p>
+            <p class="contact-line"><strong>Questions, corrections, or feedback?</strong><br><a href="mailto:fccprep@protonmail.com">fccprep@protonmail.com</a></p>
         </div>
         <a class="btn beer" href="#" aria-label="Buy me a beer support link">Buy me a beer</a>
     </section>
 
     <div class="footer">
-        FCCPrep.com • Free commercial FCC license exam preparation • Not affiliated with the Federal Communications Commission
+        FCCPrep.com • Free commercial FCC license exam preparation • Not affiliated with the Federal Communications Commission • Contact: <a href="mailto:fccprep@protonmail.com">fccprep@protonmail.com</a>
     </div>
 </div>
 <script>
